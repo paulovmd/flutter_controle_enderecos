@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_enderecos/domain/models/usuario.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/fake_usuario_repository.dart';
+import 'package:flutter_controle_enderecos/domain/repositories/local_usuario_repository.dart';
 import 'package:flutter_controle_enderecos/presentation/usuario/form_usuario_screen.dart';
 
 class SearchUsuarioScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
 
   /*Criando a instância da classe responsável por gerenciar
   a persistência dos dados. */
-  FakeUsuarioRepository fakeUsuarioRepository =  FakeUsuarioRepository();
+  LocalUsuarioRepository fakeUsuarioRepository =  LocalUsuarioRepository();
   /*Armazena os dados que serão utilizados na lista e posteriormente
   para realizar um filtro na lista */
   List<Usuario> listUsuarios = [];
@@ -31,7 +32,7 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
     /*Este método initState deve ser utilizado SEMPRE que você
     quiser atualizar algum conteúdo na tela assim que uma página ou
     janela for chamada pela primeira vez.*/
-    listUsuarios = fakeUsuarioRepository.findAll();
+    listUsuarios =  fakeUsuarioRepository.findAll();
     filterResultsUsuarios = listUsuarios;
   }
 

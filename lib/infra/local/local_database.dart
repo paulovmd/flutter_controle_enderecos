@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_controle_enderecos/infra/local/sql.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -34,9 +35,17 @@ class LocalDatabase{
   }
   
   void _createTable(Database db, int version) {
-      db.execute("CREATE TABLE TESTE (ID INT PRIMARY KEY)");
+      db.execute(sqlCreateTable);
   }
 
+  Future<void> closeDatabase() async{
+      /*Se a instância da conexão foi criada e a conexão 
+      esta aberta, fecha a conexão com o banco.*/
+      if (database != null && database!.isOpen){
+          //Fecha a conexão com o banco
+          await database!.close();
+      }
+  }
   
 
 
