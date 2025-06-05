@@ -69,25 +69,30 @@ class _FormUsuarioScreenState extends State<FormUsuarioScreen> {
   }
   
   /*Realiza as validações e confirma as operações do cadastro*/
-  void submit(){
+  void submit() async{
     /*O metodo validate realiza as validações nos campos
     do formulário. Para isso, devemos utilizar a propriedade
     validator dos Widget TextFormField*/       
     if (_formState.currentState!.validate()){
 
         if (usuario == null){
-          usuario = Usuario();
+          usuario = Usuario(); 
         }
         
         usuario!.nome = _nomeController.text;
         usuario!.email = _emailController.text;
         usuario!.login = _loginController.text;
         usuario!.password = _passWordController.text;
-
-        if (usuario!.id! <= 0)        
-          fakeUsuarioRepository.insert(usuario!);
+        usuario!.telefone = _telefoneController.text;              
+       
+        if (usuario!.id == null){        
+          usuario!.salt = '';
+          usuario!.status = 'A';
+          usuario!.data = DateTime.now();          
+          await fakeUsuarioRepository.insert(usuario!);
+        }
         else{
-          fakeUsuarioRepository.update(usuario!);
+          await fakeUsuarioRepository.update(usuario!);
         }
 
         //Fecha o formulário

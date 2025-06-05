@@ -2,25 +2,25 @@
 import 'dart:convert';
 
 class Usuario {
-  int? id;
-  String? nome;
-  String? salt;
-  String? password;
-  String? login;
-  String? email;
-  DateTime? data;
-  String? status;
-  String? telefone;
+  int? id = 0;
+  String? nome = '';
+  String? salt = '';
+  String? password = '';
+  String? login = '';
+  String? email = '';
+  DateTime? data = DateTime.now();
+  String? status = 'A';
+  String? telefone = '';
   Usuario({
     this.id,
-    this.nome,
-    this.salt,
-    this.password,
-    this.login,
-    this.email,
+    this.nome = '',
+    this.salt  = '',
+    this.password  = '',
+    this.login  = '',
+    this.email  = '',
     this.data,
-    this.status,
-    this.telefone,
+    this.status = '',
+    this.telefone = '',
   });
 
   Usuario copyWith({

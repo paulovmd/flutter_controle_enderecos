@@ -25,15 +25,28 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
   
   /*Armazena os resultados do filtro*/
   List<Usuario> filterResultsUsuarios = [];
+
+  //Defini se esta carregando algo
+  bool isLoading = false;
   
   @override
-  void initState() {    
+  void initState(){    
     super.initState();
     /*Este método initState deve ser utilizado SEMPRE que você
     quiser atualizar algum conteúdo na tela assim que uma página ou
     janela for chamada pela primeira vez.*/
-    listUsuarios =  fakeUsuarioRepository.findAll();
+    _findAllUsuarios();      
+  }
+
+  Future<void> _findAllUsuarios() async{    
+    isLoading = true;
+    listUsuarios =  await fakeUsuarioRepository.findAll();
     filterResultsUsuarios = listUsuarios;
+    //Força atualização do estado da aplicação
+    setState(() {
+      isLoading = false;            
+    });  
+    
   }
 
   @override
@@ -52,12 +65,18 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
   void _showFormUsuario() async{
     //Chama uma janela utilizando o nome da Rota
     await Navigator.of(context).pushNamed(FormUsuarioScreen.routeName);
-    setState(() {
-      filterResultsUsuarios = fakeUsuarioRepository.findAll();
+    await _findAllUsuarios();
+    //Força atualização do estado da aplicação
+    setState(() {            
     });
+
   }
   
   Widget _buildBody() {
+    if (isLoading){
+      return CircularProgressIndicator();
+    }
+
     return Padding(padding: const EdgeInsets.all(16),
         child: Column(children: [
             TextField(
