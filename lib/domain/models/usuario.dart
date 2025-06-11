@@ -1,7 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class Usuario {
+import 'package:flutter_controle_enderecos/domain/models/entity.dart';
+
+class Usuario extends Entity {
+
   int? id = 0;
   String? nome = '';
   String? salt = '';
@@ -18,7 +21,6 @@ class Usuario {
     this.password  = '',
     this.login  = '',
     this.email  = '',
-    this.data,
     this.status = '',
     this.telefone = '',
   });
@@ -30,7 +32,6 @@ class Usuario {
     String? password,
     String? login,
     String? email,
-    DateTime? data,
     String? status,
     String? telefone,
   }) {
@@ -41,10 +42,24 @@ class Usuario {
       password: password ?? this.password,
       login: login ?? this.login,
       email: email ?? this.email,
-      data: data ?? this.data,
       status: status ?? this.status,
       telefone: telefone ?? this.telefone,
     );
+  }  
+  
+  @override
+  int getId(){
+    return id!;
+  }
+
+  @override
+  dynamic fromMap(Map<String, dynamic> map) {
+    return Usuario.fromMap(map);
+  }
+  
+  @override
+  String getNameTable() {
+    return "usuario";
   }
 
   Map<String, dynamic> toMap() {
@@ -55,7 +70,6 @@ class Usuario {
       'password': password,
       'login': login,
       'email': email,
-      'data': data?.millisecondsSinceEpoch,
       'status': status,
       'telefone': telefone,
     };
@@ -69,7 +83,6 @@ class Usuario {
       password: map['password'] != null ? map['password'] as String : null,
       login: map['login'] != null ? map['login'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
-      data: map['data'] != null ? DateTime.fromMillisecondsSinceEpoch(map['data'] as int) : null,
       status: map['status'] != null ? map['status'] as String : null,
       telefone: map['telefone'] != null ? map['telefone'] as String : null,
     );
@@ -81,7 +94,7 @@ class Usuario {
 
   @override
   String toString() {
-    return 'Usuario(id: $id, nome: $nome, salt: $salt, password: $password, login: $login, email: $email, data: $data, status: $status, telefone: $telefone)';
+    return 'Usuario(id: $id, nome: $nome, salt: $salt, password: $password, login: $login, email: $email, status: $status, telefone: $telefone)';
   }
 
   @override
@@ -95,7 +108,6 @@ class Usuario {
       other.password == password &&
       other.login == login &&
       other.email == email &&
-      other.data == data &&
       other.status == status &&
       other.telefone == telefone;
   }
@@ -108,7 +120,6 @@ class Usuario {
       password.hashCode ^
       login.hashCode ^
       email.hashCode ^
-      data.hashCode ^
       status.hashCode ^
       telefone.hashCode;
   }

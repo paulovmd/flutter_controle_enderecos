@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_enderecos/domain/models/usuario.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/fake_usuario_repository.dart';
+import 'package:flutter_controle_enderecos/domain/repositories/local_base_repository.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/local_usuario_repository.dart';
 
 class FormUsuarioScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _FormUsuarioScreenState extends State<FormUsuarioScreen> {
   final TextEditingController _passWordController = TextEditingController();
   final TextEditingController _confirmPassWordController = TextEditingController();
 
-  LocalUsuarioRepository  fakeUsuarioRepository = LocalUsuarioRepository();
+  LocalBaseRepository  fakeUsuarioRepository = LocalBaseRepository();
 
   /*Utilizado para armazenar os dados do usuário
   que serão salvos na base de dados*/

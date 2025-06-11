@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_controle_enderecos/domain/models/entity.dart';
 import 'package:flutter_controle_enderecos/domain/models/usuario.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/fake_usuario_repository.dart';
+import 'package:flutter_controle_enderecos/domain/repositories/local_base_repository.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/local_usuario_repository.dart';
 import 'package:flutter_controle_enderecos/presentation/usuario/form_usuario_screen.dart';
 
@@ -18,13 +20,13 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
 
   /*Criando a instância da classe responsável por gerenciar
   a persistência dos dados. */
-  LocalUsuarioRepository fakeUsuarioRepository =  LocalUsuarioRepository();
+  LocalBaseRepository usuarioRepository =  LocalBaseRepository();
   /*Armazena os dados que serão utilizados na lista e posteriormente
   para realizar um filtro na lista */
-  List<Usuario> listUsuarios = [];
+  List<Entity> listUsuarios = [];
   
   /*Armazena os resultados do filtro*/
-  List<Usuario> filterResultsUsuarios = [];
+  List<Entity> filterResultsUsuarios = [];
 
   //Defini se esta carregando algo
   bool isLoading = false;
@@ -40,7 +42,10 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
 
   Future<void> _findAllUsuarios() async{    
     isLoading = true;
-    listUsuarios =  await fakeUsuarioRepository.findAll();
+    //A conversão é necessária pois temos como tipo
+    //de retorno a classe Entity que é a classe "pai" das Entidades
+    listUsuarios =  await usuarioRepository.findAll(Usuario());
+
     filterResultsUsuarios = listUsuarios;
     //Força atualização do estado da aplicação
     setState(() {
@@ -110,7 +115,7 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
           cada item que será visualizado. O parâmetro index representa
           o indíce atual de uma lista e utilizado esse parâmetro
           para acessar o contéudo que será visualizado no ListView */
-          Usuario usuario = filterResultsUsuarios[index];
+          Usuario usuario = filterResultsUsuarios[index] as Usuario;
 
           return InkWell(onTap: () async{
             /*Chamando o formulário de cadastro e passando
@@ -133,7 +138,7 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
       title: Text(usuario.nome!),
       trailing: IconButton(icon: const Icon(Icons.delete), onPressed: () {               
           
-          fakeUsuarioRepository.remove(usuario);
+          usuarioRepository.remove(usuario);
     
           setState(() {
               listUsuarios.remove(usuario);
@@ -150,9 +155,9 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
     /*Realiza um filtro verificando se o valor
     digitado existe na lista, neste caso, o valor
     é comparado com o atributo nome do objeto Usuário.*/
-    filterResultsUsuarios = listUsuarios.where((element) 
+   /* filterResultsUsuarios = listUsuarios.where((element) 
       => element.nome!.toLowerCase().contains(valueFilter)       
-      ).toList();  
+      ).toList(); */
   }
 
 }
