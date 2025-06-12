@@ -2,12 +2,12 @@ import 'package:flutter_controle_enderecos/domain/models/entity.dart';
 import 'package:flutter_controle_enderecos/infra/local/local_database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class LocalBaseRepository{
+class LocalBaseRepository<TEntity extends Entity>{
     //Crianda a instância da classe responsável
     //pela conexão com o banco de dados
     LocalDatabase localDatabase = LocalDatabase();
 
-    Future<void> insert(Entity entity) async{
+    Future<void> insert(TEntity entity) async{
        try{
             await localDatabase.openDb();
             //Retornando a conexão com o banco
@@ -21,7 +21,7 @@ class LocalBaseRepository{
        }
     }
 
-    Future<void> update(Entity entity) async{
+    Future<void> update(TEntity entity) async{
        try{
             await localDatabase.openDb();
             //Retornando a conexão com o banco
@@ -36,7 +36,7 @@ class LocalBaseRepository{
        }
     }
 
-    Future<void> remove(Entity entity) async{
+    Future<void> remove(TEntity entity) async{
        try{
             await localDatabase.openDb();
             //Retornando a conexão com o banco
@@ -52,10 +52,10 @@ class LocalBaseRepository{
     }
 
 
-    Future<List<Entity>> findAll(Entity entity) async{
+    Future<List<TEntity>> findAll(TEntity entity) async{
        
        //Armazena o resultado da consulta
-       List<Entity> entities = [];
+       List<TEntity> entities = [];
 
        try{
             await localDatabase.openDb();
@@ -67,7 +67,7 @@ class LocalBaseRepository{
                            await conexao.query(entity.getNameTable());
             //Convertendo o resultado da consulta em uma lista de objetos 
             for (var elemento in resultado) {
-                 Entity us = entity.fromMap(elemento);
+                 TEntity us = entity.fromMap(elemento);
                  entities.add(us);
             }
 

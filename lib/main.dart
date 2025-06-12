@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_controle_enderecos/infra/local/local_database.dart';
+import 'package:flutter_controle_enderecos/infra/local/local_web_database.dart';
 import 'package:flutter_controle_enderecos/presentation/home/home_screen.dart';
 import 'package:flutter_controle_enderecos/presentation/usuario/form_usuario_screen.dart';
 import 'package:flutter_controle_enderecos/presentation/usuario/search_usuario_screen.dart';
 
 void main() async {
-  LocalDatabase databaseTest = LocalDatabase();
+   LocalDatabase databaseTest = LocalDatabase();
   await databaseTest.openDb();
   runApp(const MainApp());
 }

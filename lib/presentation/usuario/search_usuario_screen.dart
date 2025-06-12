@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_controle_enderecos/domain/models/cidade.dart';
 import 'package:flutter_controle_enderecos/domain/models/entity.dart';
 import 'package:flutter_controle_enderecos/domain/models/usuario.dart';
 import 'package:flutter_controle_enderecos/domain/repositories/fake_usuario_repository.dart';
@@ -20,13 +21,14 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
 
   /*Criando a instância da classe responsável por gerenciar
   a persistência dos dados. */
-  LocalBaseRepository usuarioRepository =  LocalBaseRepository();
+  LocalBaseRepository<Usuario> usuarioRepository =  LocalBaseRepository<Usuario>();
+
   /*Armazena os dados que serão utilizados na lista e posteriormente
   para realizar um filtro na lista */
-  List<Entity> listUsuarios = [];
+  List<Usuario> listUsuarios = [];
   
   /*Armazena os resultados do filtro*/
-  List<Entity> filterResultsUsuarios = [];
+  List<Usuario> filterResultsUsuarios = [];
 
   //Defini se esta carregando algo
   bool isLoading = false;
@@ -115,7 +117,7 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
           cada item que será visualizado. O parâmetro index representa
           o indíce atual de uma lista e utilizado esse parâmetro
           para acessar o contéudo que será visualizado no ListView */
-          Usuario usuario = filterResultsUsuarios[index] as Usuario;
+          Usuario usuario = filterResultsUsuarios[index];
 
           return InkWell(onTap: () async{
             /*Chamando o formulário de cadastro e passando
@@ -155,9 +157,9 @@ class _SearchUsuarioScreenState extends State<SearchUsuarioScreen> {
     /*Realiza um filtro verificando se o valor
     digitado existe na lista, neste caso, o valor
     é comparado com o atributo nome do objeto Usuário.*/
-   /* filterResultsUsuarios = listUsuarios.where((element) 
+    filterResultsUsuarios = listUsuarios.where((element) 
       => element.nome!.toLowerCase().contains(valueFilter)       
-      ).toList(); */
+      ).toList(); 
   }
 
 }
